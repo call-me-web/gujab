@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220">
+  <defs>
+    <!-- Filter for the paper cutout drop shadow effect -->
+    <filter id="paper-shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
+      <feOffset in="blur" dx="2" dy="3" result="offsetBlur"/>
+      <feComponentTransfer in="offsetBlur" result="shadowAlpha">
+         <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode in="shadowAlpha"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Abstract Paper Layers (Collage feel) -->
+  <g filter="url(#paper-shadow)">
+    <!-- Cream colored organic shape behind 'Fahim' -->
+    <path d="M40,120 Q30,60 100,50 Q180,40 220,90 Q260,140 200,180 Q140,220 60,190 Q20,160 40,120 Z" 
+          fill="#f4f1ea" />
+    
+    <!-- Muted blue-grey organic shape behind 'Khan' -->
+    <path d="M280,110 Q270,50 350,60 Q450,40 520,80 Q580,120 540,180 Q500,230 380,200 Q300,180 280,110 Z" 
+          fill="#e0e6ed" />
+  </g>
+
+  <!-- The Signature Layers (Black Matte Paper) -->
+  <g filter="url(#paper-shadow)">
+    
+    <!-- "Fahim" Text Block -->
+    <!-- Stylized 'F' -->
+    <path d="M70,60 C60,50 140,40 120,60 C110,70 100,70 95,80 L95,100 L115,100 C125,100 125,115 115,115 L95,115 L95,160 C95,175 75,175 75,160 L75,80 C75,70 65,70 70,60 Z" fill="#222222"/>
+    
+    <!-- Stylized 'a' -->
+    <path d="M125,140 C120,120 160,120 155,140 C155,150 135,150 135,140 Z M160,130 L160,160 C160,170 175,170 175,160 L175,150 C165,175 120,165 125,140 C130,110 170,110 165,130 Z" fill="#222222" fill-rule="evenodd"/>
+    
+    <!-- Stylized 'h' -->
+    <path d="M180,160 L180,90 C180,75 200,75 200,90 L200,125 C200,115 230,115 230,135 L230,160 C230,175 210,175 210,160 L210,140 C210,135 200,135 200,140 L200,160 C200,175 180,175 180,160 Z" fill="#222222"/>
+    
+    <!-- Stylized 'i' -->
+    <path d="M240,135 L240,160 C240,175 260,175 260,160 L260,135 C260,120 240,120 240,135 Z" fill="#222222"/>
+    <!-- Dot for i -->
+    <circle cx="250" cy="110" r="8" fill="#222222"/>
+
+    <!-- Stylized 'm' -->
+    <path d="M270,160 L270,135 C270,120 290,120 290,135 L290,140 C290,130 315,130 315,140 L315,160 C315,175 295,175 295,160 L295,145 C295,140 290,140 290,145 L290,160 C290,175 270,175 270,160 Z" fill="#222222"/>
+    
+    <!-- Connector/Swoop under Fahim -->
+    <path d="M60,190 C100,205 250,195 300,180 C310,177 315,185 305,190 C250,210 100,220 60,200 C50,195 55,188 60,190 Z" fill="#222222"/>
+
+
+    <!-- "Khan" Text Block -->
+    <!-- Stylized 'K' -->
+    <path d="M360,160 L360,70 C360,55 380,55 380,70 L380,115 L395,95 C405,85 420,95 410,105 L395,125 L415,155 C425,165 405,175 395,160 L380,135 L380,160 C380,175 360,175 360,160 Z" fill="#222222"/>
+    
+    <!-- Stylized 'h' -->
+    <path d="M425,160 L425,90 C425,75 445,75 445,90 L445,125 C445,115 475,115 475,135 L475,160 C475,175 455,175 455,160 L455,140 C455,135 445,135 445,140 L445,160 C445,175 425,175 425,160 Z" fill="#222222"/>
+
+    <!-- Stylized 'a' -->
+    <path d="M485,140 C480,120 520,120 515,140 C515,150 495,150 495,140 Z M520,130 L520,160 C520,170 535,170 535,160 L535,150 C525,175 480,165 485,140 C490,110 530,110 525,130 Z" fill="#222222" fill-rule="evenodd"/>
+
+    <!-- Stylized 'n' -->
+    <path d="M545,160 L545,135 C545,120 575,120 575,135 L575,160 C575,175 555,175 555,160 L555,145 C555,140 545,140 545,145 L545,160 C545,175 525,175 525,160 Z" transform="translate(20,0)" fill="#222222"/>
+
+  </g>
+</svg>
