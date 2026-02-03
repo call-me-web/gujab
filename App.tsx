@@ -372,7 +372,9 @@ const App: React.FC = () => {
         onLoginClick={() => setCurrentPage(Page.AUTH)}
         onViewMyProfile={handleViewMyProfile}
       />
-      {renderContent()}
+      <div className="pt-60">
+        {renderContent()}
+      </div>
 
       <footer className="border-t-4 border-black mt-16 py-12 bg-[#e5e2d9]">
         <div className="max-w-4xl mx-auto px-4 text-center">
