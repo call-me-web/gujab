@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Page, Article, SearchResult } from '../types';
-import { searchWeb } from '../services/geminiService';
+import { searchWeb } from '../services/groqService';
 import { ArticleGrid } from './ArticleGrid';
 import { marked } from 'marked';
 

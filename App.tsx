@@ -321,10 +321,10 @@ const App: React.FC = () => {
       default:
         content = (
           <main className="max-w-7xl mx-auto px-4 md:px-8 pb-12">
-            <div className="mb-6 flex justify-between items-center bg-black text-white px-2 py-1"><div className="flex-1"><Ticker articles={articles} /></div></div>
+            <div className="mb-6 bg-black text-white px-2 py-1 overflow-hidden"><Ticker articles={articles} /></div>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-9">
-                {heroArticle.length > 0 ? <HeroArticle articles={[...heroArticle, ...topStories]} onLike={handleLike} currentUser={currentUser} viewerId={viewerId} onViewArticle={handleViewArticle} onViewProfile={handleViewProfile} /> : <p className="text-center mt-10">Silence...</p>}
+                {heroArticle.length > 0 ? <HeroArticle articles={[...heroArticle, ...topStories]} onLike={handleLike} currentUser={currentUser} viewerId={viewerId} onViewArticle={handleViewArticle} onViewProfile={handleViewProfile} /> : <p className="text-center mt-10 font-headline font-bold text-4xl">Wait a bit...</p>}
                 <section className="mt-8 pt-8 border-t-2 border-black">
                   <ArticleGrid articles={gridArticles} onLike={handleLike} currentUser={currentUser} viewerId={viewerId} onViewArticle={handleViewArticle} onViewProfile={handleViewProfile} />
 
@@ -360,7 +360,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen text-[#1a1a1a] overflow-x-hidden w-full">
+    <div className="min-h-screen text-[#1a1a1a] w-full">
       <CookieBanner message={publicNotice} />
       <Suspense fallback={null}><InstallPrompt /></Suspense>
       <Masthead
@@ -372,7 +372,7 @@ const App: React.FC = () => {
         onLoginClick={() => setCurrentPage(Page.AUTH)}
         onViewMyProfile={handleViewMyProfile}
       />
-      <div className="pt-60">
+      <div>
         {renderContent()}
       </div>
 

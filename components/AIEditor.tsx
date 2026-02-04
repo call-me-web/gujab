@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { generateEditorColumn } from '../services/geminiService';
+import { generateEditorColumn } from '../services/groqService';
 
 export const AIEditor: React.FC = () => {
   const [query, setQuery] = useState('');
@@ -9,7 +9,7 @@ export const AIEditor: React.FC = () => {
   const handleAsk = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
-    
+
     setLoading(true);
     const result = await generateEditorColumn(query);
     setResponse(result);
@@ -21,7 +21,7 @@ export const AIEditor: React.FC = () => {
       <h3 className="font-sans-condensed font-bold text-lg uppercase border-b-2 border-black mb-3 pb-1 text-center tracking-widest">
         Whisper to the Oracle
       </h3>
-      
+
       {!response && !loading && (
         <div>
           <p className="font-secret text-center text-xs mb-3 italic text-gray-600">
@@ -35,7 +35,7 @@ export const AIEditor: React.FC = () => {
               placeholder="Ask your question..."
               className="border border-black p-1.5 font-secret text-xs focus:outline-none focus:ring-1 focus:ring-black bg-gray-50 text-center"
             />
-            <button 
+            <button
               type="submit"
               className="bg-black text-white font-sans-condensed uppercase font-bold text-xs py-2 px-3 hover:bg-gray-800 transition-colors"
             >
@@ -60,7 +60,7 @@ export const AIEditor: React.FC = () => {
             "{response}"
           </p>
           <div className="mt-3 text-center">
-             <button 
+            <button
               onClick={() => { setResponse(null); setQuery(''); }}
               className="text-xs underline font-sans-condensed uppercase"
             >

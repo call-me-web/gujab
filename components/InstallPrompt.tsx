@@ -1,75 +1,89 @@
 import React, { useState, useEffect } from 'react';
-import { BeforeInstallPromptEvent } from '../types';
 
 export const InstallPrompt: React.FC = () => {
-    const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-    const [isVisible, setIsVisible] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-    useEffect(() => {
-        const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
-            // Prevent browser's default mini-infobar
-            e.preventDefault();
-            // Stash the event so it can be triggered later
-            setDeferredPrompt(e);
-            // Show the customized UI
-            setIsVisible(true);
-        };
-
-        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-        return () => {
-            window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-        };
-    }, []);
-
-    const handleInstallClick = async () => {
-        if (!deferredPrompt) return;
-
-        // Show the install prompt
-        deferredPrompt.prompt();
-
-        // Wait for the user to respond to the prompt
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`User response to the install prompt: ${outcome}`);
-
-        // We've used the prompt, so clearing it
-        setDeferredPrompt(null);
-        setIsVisible(false);
+  useEffect(() => {
+    const handler = (e: Event) => {
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      setDeferredPrompt(e);
+      // Delay slightly for effect
+      setTimeout(() => setIsVisible(true), 2000);
     };
 
-    const handleDismiss = () => {
-        setIsVisible(false);
+    window.addEventListener('beforeinstallprompt', handler);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler);
     };
+  }, []);
 
-    if (!isVisible) return null;
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    // Show the install prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      console.log('User accepted the install prompt');
+    } else {
+      console.log('User dismissed the install prompt');
+    }
+    setDeferredPrompt(null);
+    setIsVisible(false);
+  };
 
-    return (
-        <div className="fixed bottom-4 left-4 right-4 z-[9999] animate-fade-in-up">
-            <div className="bg-black text-white p-4 shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] border-2 border-white flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                    <div className="bg-white p-1 rounded-sm">
-                        <img src="/icon-192.png" alt="App Icon" className="w-10 h-10 object-cover" />
-                    </div>
-                    <div>
-                        <h3 className="font-headline font-bold text-lg leading-tight">Install Gujab</h3>
-                        <p className="font-body text-sm text-gray-300">Get the full app experience.</p>
-                    </div>
-                </div>
-                <div className="flex gap-2 w-full sm:w-auto">
-                    <button
-                        onClick={handleDismiss}
-                        className="flex-1 sm:flex-none px-3 py-2 font-sans-condensed text-xs uppercase tracking-widest hover:text-red-500 transition-colors"
-                    >
-                        Not Now
-                    </button>
-                    <button
+  if (!isVisible) return null;
+
+  return (
+    <div className="fixed bottom-6 right-6 z-[100] animate-in slide-in-from-bottom duration-700 pointer-events-none flex justify-end">
+      <div className="bg-[#fcfbf9] text-black border-4 border-black p-0 shadow-[0_20px_50px_rgba(0,0,0,0.5)] max-w-xs w-full relative pointer-events-auto transform rotate-1">
+        
+        {/* "Urgent" Stamp */}
+        <div className="absolute -top-3 -left-3 bg-red-800 text-white px-3 py-1 font-sans-condensed font-bold uppercase text-[10px] tracking-widest border-2 border-black rotate-[-10deg] shadow-sm z-20">
+            Press Pass
+        </div>
+
+        {/* Close Button */}
+        <button 
+            onClick={() => setIsVisible(false)}
+            className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center font-bold text-gray-400 hover:text-red-800 hover:bg-gray-100 rounded-full transition-colors z-20"
+            aria-label="Close"
+        >
+            &times;
+        </button>
+
+        <div className="flex">
+            <div className="bg-black text-white p-3 flex items-center justify-center shrink-0 w-12 relative overflow-hidden">
+                <div className="absolute inset-0 bg-white/10 opacity-20 rotate-45 transform scale-150"></div>
+                <span className="font-masthead text-3xl relative z-10">G</span>
+            </div>
+            
+            <div className="p-4 flex-grow">
+                <h4 className="font-headline font-bold text-lg uppercase leading-none mb-1">Get The App</h4>
+                <p className="font-secret text-[10px] text-gray-600 mb-3 leading-tight">
+                    Install Gujab for instant wire access.
+                </p>
+                <div className="flex gap-2">
+                    <button 
                         onClick={handleInstallClick}
-                        className="flex-1 sm:flex-none bg-white text-black px-4 py-2 font-sans-condensed font-bold uppercase text-xs tracking-widest border border-white hover:bg-gray-200 transition-colors"
+                        className="flex-1 bg-red-800 text-white py-1.5 px-3 font-sans-condensed font-bold uppercase text-[10px] tracking-widest hover:bg-black transition-colors border border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] active:shadow-none"
                     >
                         Install
+                    </button>
+                    <button 
+                        onClick={() => setIsVisible(false)}
+                        className="px-2 py-1.5 font-sans-condensed font-bold uppercase text-[10px] text-gray-500 hover:text-black hover:underline"
+                    >
+                        Close
                     </button>
                 </div>
             </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };

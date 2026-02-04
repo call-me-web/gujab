@@ -61,7 +61,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ setPage }) => {
             OPERATING FROM AN UNDISCLOSED SERVER LOCATION
           </p>
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Signature_sample.svg/1200px-Signature_sample.svg.png"
+            src="/signature.svg"
             className="h-16 mx-auto opacity-40 mix-blend-multiply filter contrast-150"
             alt="Signature"
           />

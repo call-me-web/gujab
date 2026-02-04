@@ -98,20 +98,20 @@ async function getCroppedImg(
   // --- SMART RESIZING LOGIC ---
   // Define maximum dimension (HD Standard)
   const MAX_DIMENSION = 1920;
-
+  
   let targetWidth = pixelCrop.width;
   let targetHeight = pixelCrop.height;
 
   // If image is massive, scale it down to save storage while keeping high detail
   if (targetWidth > MAX_DIMENSION || targetHeight > MAX_DIMENSION) {
-    const ratio = targetWidth / targetHeight;
-    if (targetWidth > targetHeight) {
-      targetWidth = MAX_DIMENSION;
-      targetHeight = Math.round(MAX_DIMENSION / ratio);
-    } else {
-      targetHeight = MAX_DIMENSION;
-      targetWidth = Math.round(MAX_DIMENSION * ratio);
-    }
+      const ratio = targetWidth / targetHeight;
+      if (targetWidth > targetHeight) {
+          targetWidth = MAX_DIMENSION;
+          targetHeight = Math.round(MAX_DIMENSION / ratio);
+      } else {
+          targetHeight = MAX_DIMENSION;
+          targetWidth = Math.round(MAX_DIMENSION * ratio);
+      }
   }
 
   // Create a second canvas for the final resized output
@@ -127,7 +127,7 @@ async function getCroppedImg(
   tempCanvas.width = pixelCrop.width;
   tempCanvas.height = pixelCrop.height;
   const tempCtx = tempCanvas.getContext('2d');
-
+  
   if (!tempCtx) return null;
 
   // Put full res data onto temp canvas
@@ -142,8 +142,8 @@ async function getCroppedImg(
   // As a blob - Convert to WebP for maximum compression/quality ratio
   return new Promise((resolve, reject) => {
     outputCanvas.toBlob((file) => {
-      if (file) resolve(file);
-      else reject(new Error('Canvas is empty'));
+        if (file) resolve(file);
+        else reject(new Error('Canvas is empty'));
     }, 'image/webp', 0.85); // 0.85 is the sweet spot for visual quality vs file size
   });
 }
@@ -174,13 +174,13 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({ imageSrc, onCropComp
         rotation
       );
       if (croppedImage) {
-        onCropComplete(croppedImage);
+          onCropComplete(croppedImage);
       }
     } catch (e) {
       console.error(e);
       alert('Failed to develop photo.');
     } finally {
-      setProcessing(false);
+        setProcessing(false);
     }
   }, [imageSrc, croppedAreaPixels, rotation, onCropComplete]);
 
@@ -188,14 +188,14 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({ imageSrc, onCropComp
     <div className="fixed inset-0 z-[200] bg-[#1a1a1a] flex flex-col items-center justify-center p-4 animate-in fade-in duration-300">
       {/* Decorative Film Strips */}
       <div className="absolute top-0 left-0 w-full h-8 bg-black flex gap-1 overflow-hidden opacity-50 pointer-events-none">
-        {Array.from({ length: 40 }).map((_, i) => (
-          <div key={i} className="w-8 h-full bg-gray-800 border-x-4 border-black"></div>
-        ))}
+          {Array.from({ length: 40 }).map((_, i) => (
+             <div key={i} className="w-8 h-full bg-gray-800 border-x-4 border-black"></div> 
+          ))}
       </div>
       <div className="absolute bottom-0 left-0 w-full h-8 bg-black flex gap-1 overflow-hidden opacity-50 pointer-events-none">
-        {Array.from({ length: 40 }).map((_, i) => (
-          <div key={i} className="w-8 h-full bg-gray-800 border-x-4 border-black"></div>
-        ))}
+          {Array.from({ length: 40 }).map((_, i) => (
+             <div key={i} className="w-8 h-full bg-gray-800 border-x-4 border-black"></div> 
+          ))}
       </div>
 
       <div className="w-full max-w-4xl h-[60vh] md:h-[70vh] relative border-4 border-gray-800 bg-black shadow-[0_0_50px_rgba(200,0,0,0.1)]">
@@ -210,93 +210,93 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({ imageSrc, onCropComp
           onCropComplete={onCropCompleteCallback}
           onZoomChange={setZoom}
           style={{
-            containerStyle: { backgroundColor: '#000' },
-            cropAreaStyle: { border: '2px solid rgba(255, 255, 255, 0.5)', boxShadow: '0 0 0 9999em rgba(0, 0, 0, 0.8)' }
+              containerStyle: { backgroundColor: '#000' },
+              cropAreaStyle: { border: '2px solid rgba(255, 255, 255, 0.5)', boxShadow: '0 0 0 9999em rgba(0, 0, 0, 0.8)' }
           }}
         />
       </div>
 
       <div className="w-full max-w-4xl mt-6 p-4 bg-gray-900 border-t-2 border-red-900 shadow-2xl relative">
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-900 text-white px-4 py-0.5 font-sans-condensed text-xs font-bold uppercase tracking-widest">
-          Darkroom Controls
-        </div>
+         <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-900 text-white px-4 py-0.5 font-sans-condensed text-xs font-bold uppercase tracking-widest">
+             Darkroom Controls
+         </div>
 
-        <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
-          {/* Aspect Ratio Selector */}
-          <div className="flex gap-2">
-            <button
-              onClick={() => setAspect(16 / 9)}
-              className={`px-3 py-1 font-sans-condensed text-xs uppercase font-bold border border-gray-600 transition-colors ${aspect === 16 / 9 ? 'bg-white text-black' : 'text-gray-400 hover:text-white'}`}
-            >
-              Landscape (16:9)
-            </button>
-            <button
-              onClick={() => setAspect(4 / 3)}
-              className={`px-3 py-1 font-sans-condensed text-xs uppercase font-bold border border-gray-600 transition-colors ${aspect === 4 / 3 ? 'bg-white text-black' : 'text-gray-400 hover:text-white'}`}
-            >
-              Standard (4:3)
-            </button>
-            <button
-              onClick={() => setAspect(1)}
-              className={`px-3 py-1 font-sans-condensed text-xs uppercase font-bold border border-gray-600 transition-colors ${aspect === 1 ? 'bg-white text-black' : 'text-gray-400 hover:text-white'}`}
-            >
-              Square (1:1)
-            </button>
-            <button
-              onClick={() => setAspect(3 / 4)}
-              className={`px-3 py-1 font-sans-condensed text-xs uppercase font-bold border border-gray-600 transition-colors ${aspect === 3 / 4 ? 'bg-white text-black' : 'text-gray-400 hover:text-white'}`}
-            >
-              Portrait (3:4)
-            </button>
-          </div>
-
-          {/* Sliders */}
-          <div className="flex gap-6 w-full max-w-md">
-            <div className="flex-1">
-              <label className="block text-[10px] text-gray-500 font-sans-condensed uppercase mb-1">Zoom</label>
-              <input
-                type="range"
-                value={zoom}
-                min={1}
-                max={3}
-                step={0.1}
-                aria-labelledby="Zoom"
-                onChange={(e) => setZoom(Number(e.target.value))}
-                className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-red-600"
-              />
+         <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
+            {/* Aspect Ratio Selector */}
+            <div className="flex gap-2">
+                <button 
+                    onClick={() => setAspect(16 / 9)} 
+                    className={`px-3 py-1 font-sans-condensed text-xs uppercase font-bold border border-gray-600 transition-colors ${aspect === 16/9 ? 'bg-white text-black' : 'text-gray-400 hover:text-white'}`}
+                >
+                    Landscape (16:9)
+                </button>
+                <button 
+                    onClick={() => setAspect(4 / 3)} 
+                    className={`px-3 py-1 font-sans-condensed text-xs uppercase font-bold border border-gray-600 transition-colors ${aspect === 4/3 ? 'bg-white text-black' : 'text-gray-400 hover:text-white'}`}
+                >
+                    Standard (4:3)
+                </button>
+                 <button 
+                    onClick={() => setAspect(1)} 
+                    className={`px-3 py-1 font-sans-condensed text-xs uppercase font-bold border border-gray-600 transition-colors ${aspect === 1 ? 'bg-white text-black' : 'text-gray-400 hover:text-white'}`}
+                >
+                    Square (1:1)
+                </button>
+                 <button 
+                    onClick={() => setAspect(3 / 4)} 
+                    className={`px-3 py-1 font-sans-condensed text-xs uppercase font-bold border border-gray-600 transition-colors ${aspect === 3/4 ? 'bg-white text-black' : 'text-gray-400 hover:text-white'}`}
+                >
+                    Portrait (3:4)
+                </button>
             </div>
-            <div className="flex-1">
-              <label className="block text-[10px] text-gray-500 font-sans-condensed uppercase mb-1">Rotation</label>
-              <input
-                type="range"
-                value={rotation}
-                min={0}
-                max={360}
-                step={1}
-                aria-labelledby="Rotation"
-                onChange={(e) => setRotation(Number(e.target.value))}
-                className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-red-600"
-              />
-            </div>
-          </div>
 
-          {/* Actions */}
-          <div className="flex gap-4">
-            <button
-              onClick={onCancel}
-              className="text-gray-400 hover:text-white font-sans-condensed uppercase text-xs font-bold px-4 hover:underline"
-            >
-              Scrap (Cancel)
-            </button>
-            <button
-              onClick={showCroppedImage}
-              disabled={processing}
-              className="bg-red-800 text-white font-sans-condensed font-bold uppercase px-6 py-2 hover:bg-red-700 transition-colors shadow-lg border border-red-900"
-            >
-              {processing ? 'Developing...' : 'Develop Photo'}
-            </button>
-          </div>
-        </div>
+            {/* Sliders */}
+            <div className="flex gap-6 w-full max-w-md">
+                 <div className="flex-1">
+                    <label className="block text-[10px] text-gray-500 font-sans-condensed uppercase mb-1">Zoom</label>
+                    <input
+                        type="range"
+                        value={zoom}
+                        min={1}
+                        max={3}
+                        step={0.1}
+                        aria-labelledby="Zoom"
+                        onChange={(e) => setZoom(Number(e.target.value))}
+                        className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-red-600"
+                    />
+                 </div>
+                 <div className="flex-1">
+                    <label className="block text-[10px] text-gray-500 font-sans-condensed uppercase mb-1">Rotation</label>
+                    <input
+                        type="range"
+                        value={rotation}
+                        min={0}
+                        max={360}
+                        step={1}
+                        aria-labelledby="Rotation"
+                        onChange={(e) => setRotation(Number(e.target.value))}
+                        className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-red-600"
+                    />
+                 </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-4">
+                <button 
+                    onClick={onCancel}
+                    className="text-gray-400 hover:text-white font-sans-condensed uppercase text-xs font-bold px-4 hover:underline"
+                >
+                    Scrap (Cancel)
+                </button>
+                <button 
+                    onClick={showCroppedImage}
+                    disabled={processing}
+                    className="bg-red-800 text-white font-sans-condensed font-bold uppercase px-6 py-2 hover:bg-red-700 transition-colors shadow-lg border border-red-900"
+                >
+                    {processing ? 'Developing...' : 'Develop Photo'}
+                </button>
+            </div>
+         </div>
       </div>
     </div>
   );

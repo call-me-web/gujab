@@ -37,7 +37,7 @@ export const DonationPage: React.FC<DonationPageProps> = ({ setPage }) => {
                 </button>
             </div>
 
-            <div className="bg-paper border-[6px] border-double border-primary p-8 md:p-12 relative shadow-primary">
+            <div className="bg-[#fcfbf9] border-[6px] border-double border-black p-8 md:p-12 relative shadow-[20px_20px_0px_0px_rgba(0,0,0,0.15)]">
                 {/* Decorative Corner */}
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-gray-200 to-transparent pointer-events-none"></div>
                 <div className="absolute top-6 right-6 border-4 border-primary px-4 py-2 rotate-12 bg-paper z-10">
