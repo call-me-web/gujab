@@ -24,7 +24,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ setPage }) => {
         <div className="text-center mb-12">
           <h1 className="font-masthead text-6xl md:text-8xl mb-2">Gujab</h1>
           <div className="border-t-2 border-b-2 border-black py-2 inline-block px-8">
-            <span className="font-sans-condensed font-bold uppercase tracking-[0.4em] text-sm">The Official Unofficial Record</span>
+            <span className="font-sans-condensed font-bold uppercase tracking-[0.4em] text-sm">The Official Unofficial News</span>
           </div>
         </div>
 
