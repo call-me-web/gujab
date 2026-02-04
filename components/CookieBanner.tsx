@@ -50,11 +50,8 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ message }) => {
     const lastDismissed = sessionStorage.getItem('gujab_last_dismissed_notice');
 
     if (message !== lastDismissed) {
-      const timer = setTimeout(() => {
-        setVisible(true);
-        playTeletypeSound();
-      }, 1500);
-      return () => clearTimeout(timer);
+      setVisible(true);
+      playTeletypeSound();
     } else {
       setVisible(false);
     }
