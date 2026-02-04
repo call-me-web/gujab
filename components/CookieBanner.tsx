@@ -7,6 +7,40 @@ interface CookieBannerProps {
 export const CookieBanner: React.FC<CookieBannerProps> = ({ message }) => {
   const [visible, setVisible] = useState(false);
 
+  // Persistent audio context that stays suspended until first interaction
+  const audioContextRef = React.useRef<AudioContext | null>(null);
+
+  useEffect(() => {
+    // Attempt to initialize/resume AudioContext on first interaction
+    const unlockAudio = () => {
+      if (!audioContextRef.current) {
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        if (AudioContextClass) {
+          audioContextRef.current = new AudioContextClass();
+        }
+      }
+
+      if (audioContextRef.current?.state === 'suspended') {
+        audioContextRef.current.resume();
+      }
+
+      // Once unlocked, we can remove the listeners
+      window.removeEventListener('click', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
+      window.removeEventListener('keydown', unlockAudio);
+    };
+
+    window.addEventListener('click', unlockAudio);
+    window.addEventListener('touchstart', unlockAudio);
+    window.addEventListener('keydown', unlockAudio);
+
+    return () => {
+      window.removeEventListener('click', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
+      window.removeEventListener('keydown', unlockAudio);
+    };
+  }, []);
+
   useEffect(() => {
     if (!message) {
       setVisible(false);
@@ -28,17 +62,28 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ message }) => {
 
   const playTeletypeSound = () => {
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-      if (!AudioContextClass) return;
+      // Use the existing (and hopefully unlocked) context
+      if (!audioContextRef.current) {
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        if (AudioContextClass) {
+          audioContextRef.current = new AudioContextClass();
+        } else {
+          return;
+        }
+      }
 
-      const ctx = new AudioContextClass();
+      const ctx = audioContextRef.current;
 
-      // Sequence of two short 'teletype' metallic dings
+      // If still suspended (user hasn't clicked yet), we can't play, but we try anyway
+      if (ctx.state === 'suspended') {
+        ctx.resume().catch(() => { });
+      }
+
       const playDing = (time: number, freq: number) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
 
-        osc.type = 'square'; // Mechanical feel
+        osc.type = 'square';
         osc.frequency.setValueAtTime(freq, time);
         osc.frequency.exponentialRampToValueAtTime(freq * 0.5, time + 0.1);
 
@@ -54,11 +99,11 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ message }) => {
       };
 
       const now = ctx.currentTime;
-      playDing(now, 880); // A5
-      playDing(now + 0.1, 1320); // E6
+      playDing(now, 880);
+      playDing(now + 0.1, 1320);
 
     } catch (e) {
-      console.warn('Audio feedback failed or blocked by browser policy');
+      console.warn('Audio feedback failed:', e);
     }
   };
 
