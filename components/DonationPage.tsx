@@ -115,7 +115,7 @@ export const DonationPage: React.FC<DonationPageProps> = ({ setPage }) => {
                                         <div className="w-20 h-20  flex items-center justify-center mx-auto text-4xl mb-4 font-black">
                                             <img className='w-full h-full rounded-lg' src="/nsave.webp" alt="nsave" />
                                         </div>
-                                        <h4 className="font-headline font-bold text-2xl uppercase">Comming soon...</h4>
+                                        <h4 className="font-headline font-bold text-xl uppercase">Comming soon...</h4>
                                         <h3 className="font-headline font-bold text-2xl uppercase">Global Transfer</h3>
                                     </div>
 
